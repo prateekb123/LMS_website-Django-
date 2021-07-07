@@ -1,0 +1,90 @@
+{% extends 'courses/base.html' %}
+{% load static %}
+{% load custom_tag %}
+
+{% block title %}Login Page
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container-fluid">
+    <br>
+    <h1 class='mx-auto text-center border p-2'>Checkout Page</h1>
+    <br>
+
+
+
+    <div class="row">
+
+        <div class='col'>
+            <div class="card ml-auto" style="width: 18rem;">
+                <img class="card-img-top" src="{{course.thumbnail.url}}" alt="Card image cap">
+                    <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <p class="card-text m-0 p-0">
+                        Save {{course.discount}}%
+                        <br>
+                        <span class='price'>
+                            <del>{{course.price|rupee}}</del>
+                            &nbsp;
+                            <span>{% discount course.price course.discount as value %}{{value|rupee}}</span>
+                        </span>
+                            
+                        
+                    </p>
+                    </div>
+
+                
+            </div>
+        </div>
+
+
+        <div class='col mx-auto'>
+            <div class='text-center'>
+                <h3>{{course.name}}</h3>
+                <hr>
+                <p>Payable Amount : <b>{% discount course.price course.discount as value %}{{value|rupee}}</b></p>
+                <a class = 'btn btn-light border' href="?action=create_payment">Continue to Payment</a>
+            </div>
+        </div>
+
+                
+    </div>
+</div>
+
+
+{% if order is not None %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "rzp_test_fqE1FlH19ZQYor", // Enter the Key ID generated from the Dashboard
+        "name": "Code with Prateek",
+        "description": "Payment for {{course.name}}",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{order.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "http://localhost:8000/verify_payment",
+        "prefill": {
+            "name": "{{user.first_name}}",
+            "email": "{{user.email}}",
+        },
+
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    </script>
+
+{% endif %}
+
+{% if error is not None %}
+<script>
+    window.onload = ()=>{
+        alert("{{error}}")
+    }
+</script>
+{% endif %}
+{% endblock %}

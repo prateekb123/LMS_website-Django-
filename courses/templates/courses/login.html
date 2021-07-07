@@ -1,0 +1,23 @@
+{% extends 'courses/base.html' %}
+
+{% block title %}Login Page
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <form action="" method ="POST">
+        
+        {{form.as_p}}
+        {% csrf_token %}
+        
+
+        <input type="submit" value = 'Login'>
+
+    </form>
+    
+</div>
+
+
+
+{% endblock %}

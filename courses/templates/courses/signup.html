@@ -1,0 +1,20 @@
+{% extends 'courses/base.html' %}
+
+{% block title %}Signup Page
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <form action="/signup" method='POST'>
+        {{form.as_ul}}
+        {% csrf_token %}
+
+        <input type="submit" value="Signup">
+    </form> 
+    
+</div>
+
+
+
+{% endblock %}
